@@ -1,6 +1,6 @@
 # create dynamodb table
 resource "aws_dynamodb_table" "visitor_counter" {
-  name         = "VisitorCounterTable-1"
+  name         = "VisitorCounterTable"
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "id"
 
@@ -38,7 +38,7 @@ data "aws_caller_identity" "current" {}
 
 # create policy
 resource "aws_iam_policy" "custom_policy" {
-  name        = "LambdaAccessVisitorCounterTable-1"
+  name        = "LambdaAccessVisitorCounterTable"
   description = "Policy for get, put, update item in visitor counter table at DynamoDB and enable log."
 
   policy = jsonencode({
@@ -77,7 +77,7 @@ resource "aws_iam_policy" "custom_policy" {
 
 # create role
 resource "aws_iam_role" "custom_role" {
-  name        = "VisitorCounterRole-1"
+  name        = "VisitorCounterRole"
   description = "Allows Lambda functions to call DynamoDB on your behalf."
 
   assume_role_policy = jsonencode({
@@ -104,14 +104,14 @@ resource "aws_iam_role_policy_attachment" "custom_attachment" {
 # archive python file to zip
 data "archive_file" "python" {
   type        = "zip"
-  source_file = "${path.module}/function/lambda_function.py"
-  output_path = "${path.module}/function/lambda_function.zip"
+  source_file = "../../function/lambda_function.py"
+  output_path = "../../function/lambda_function.zip"
 }
 
 # create lambda function
 resource "aws_lambda_function" "python_lambda" {
-  filename      = "${path.module}/function/lambda_function.zip"
-  function_name = "VisitorCounterFunction-1"
+  filename      = "../../function/lambda_function.zip"
+  function_name = "VisitorCounterFunction"
   role          = aws_iam_role.custom_role.arn
   handler       = "lambda_function.lambda_handler"
   runtime       = "python3.12"
@@ -119,7 +119,7 @@ resource "aws_lambda_function" "python_lambda" {
 
 # create HTTP API
 resource "aws_apigatewayv2_api" "http_api" {
-  name          = "VisitorCounterAPI-1"
+  name          = "VisitorCounterAPI"
   protocol_type = "HTTP"
 }
 
@@ -132,9 +132,9 @@ resource "aws_apigatewayv2_integration" "lambda_apigateway" {
 }
 
 # create auto deploy dev stage 
-resource "aws_apigatewayv2_stage" "dev_stage" {
+resource "aws_apigatewayv2_stage" "prod_stage" {
   api_id      = aws_apigatewayv2_api.http_api.id
-  name        = "dev"
+  name        = "prod"
   auto_deploy = true
 }
 
@@ -150,7 +150,7 @@ resource "aws_lambda_permission" "lambda_apigateway_permission" {
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.python_lambda.function_name
   principal     = "apigateway.amazonaws.com"
-  statement_id  = "AllowExecuteLambda-1"
+  statement_id  = "AllowExecuteLambda"
   source_arn    = "${aws_apigatewayv2_api.http_api.execution_arn}/*/*"
 }
 
