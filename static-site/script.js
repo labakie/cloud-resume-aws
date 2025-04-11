@@ -1,6 +1,6 @@
 async function getVisitorCount() {
     try {
-        const response = await fetch("https://gry5ux3ldj.execute-api.us-east-1.amazonaws.com/dev/visitor-counter");
+        const response = await fetch("api-gateway-invoke-url-placeholder");
         const data = await response.json();
         
         // Update visitor count in HTML
