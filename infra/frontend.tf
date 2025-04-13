@@ -13,38 +13,38 @@ resource "aws_s3_bucket_public_access_block" "block_public" {
   restrict_public_buckets = true
 }
 
-# upload html file
-resource "aws_s3_object" "index_html" {
-  bucket       = aws_s3_bucket.site_bucket.id
-  key          = "index.html"
-  source       = "../../static-site/index.html"
-  content_type = "text/html"
-}
+# upload html file (all upload resources disabled, change using aws s3 sync)
+# resource "aws_s3_object" "index_html" {
+#   bucket       = aws_s3_bucket.site_bucket.id
+#   key          = "index.html"
+#   source       = "../../static-site/index.html"
+#   content_type = "text/html"
+# }
 
 # upload css file
-resource "aws_s3_object" "style_css" {
-  bucket       = aws_s3_bucket.site_bucket.id
-  key          = "style.css"
-  source       = "../../static-site/style.css"
-  content_type = "text/css"
-}
+# resource "aws_s3_object" "style_css" {
+#   bucket       = aws_s3_bucket.site_bucket.id
+#   key          = "style.css"
+#   source       = "../../static-site/style.css"
+#   content_type = "text/css"
+# }
 
 # upload js file
-resource "aws_s3_object" "script_js" {
-  bucket       = aws_s3_bucket.site_bucket.id
-  key          = "script.js"
-  source       = "../../static-site/script.js"
-  content_type = "application/javascript"
-}
+# resource "aws_s3_object" "script_js" {
+#   bucket       = aws_s3_bucket.site_bucket.id
+#   key          = "script.js"
+#   source       = "../../static-site/script.js"
+#   content_type = "application/javascript"
+# }
 
 # upload all images
-resource "aws_s3_object" "upload_all_images" {
-  bucket       = aws_s3_bucket.site_bucket.id
-  for_each     = fileset("../../static-site/img", "*")
-  key          = "img/${each.value}"
-  source       = "../../static-site/img/${each.value}"
-  content_type = "image/jpeg"
-}
+# resource "aws_s3_object" "upload_all_images" {
+#   bucket       = aws_s3_bucket.site_bucket.id
+#   for_each     = fileset("../../static-site/img", "*")
+#   key          = "img/${each.value}"
+#   source       = "../../static-site/img/${each.value}"
+#   content_type = "image/jpeg"
+# }
 
 # create OAC resource to securely access S3 bucket
 resource "aws_cloudfront_origin_access_control" "oac_s3" {
