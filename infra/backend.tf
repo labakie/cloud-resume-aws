@@ -104,13 +104,13 @@ resource "aws_iam_role_policy_attachment" "custom_attachment" {
 # archive python file to zip
 data "archive_file" "python" {
   type        = "zip"
-  source_file = "../../function/lambda_function.py"
-  output_path = "../../function/lambda_function.zip"
+  source_file = "${path.module}/function/lambda_function.py"
+  output_path = "${path.module}/function/lambda_function.zip"
 }
 
 # create lambda function
 resource "aws_lambda_function" "python_lambda" {
-  filename      = "../../function/lambda_function.zip"
+  filename      = "${path.module}/function/lambda_function.zip"
   function_name = "VisitorCounterFunction"
   role          = aws_iam_role.custom_role.arn
   handler       = "lambda_function.lambda_handler"
