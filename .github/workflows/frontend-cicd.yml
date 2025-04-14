@@ -19,7 +19,7 @@ jobs:
       
       - name: Inject API Gateway invoke url to JS file
         run: |
-          sed -i "s|api-gateway-invoke-url-placeholder|${{ secrets.API_GATEWAY_URL }}" static-site/script.js
+          sed -i "s|api-gateway-invoke-url-placeholder|${{ secrets.API_GATEWAY_URL }}|" static-site/script.js
 
       - name: Sync static site to S3
         uses: jakejarvis/s3-sync-action@v0.5.1
