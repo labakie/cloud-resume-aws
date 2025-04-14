@@ -57,7 +57,7 @@ resource "aws_cloudfront_origin_access_control" "oac_s3" {
 
 # get SSL/TLS certificate data for domain from AWS ACM
 data "aws_acm_certificate" "issued" {
-  domain   = "*.zaril.my.id"
+  domain   = "zaril.my.id"
   statuses = ["ISSUED"]
 }
 

@@ -156,5 +156,5 @@ resource "aws_lambda_permission" "lambda_apigateway_permission" {
 
 # show API Gateway invoke URL in terminal
 output "api_invoke_url" {
-  value = "${aws_apigatewayv2_stage.dev_stage.invoke_url}/visitor-counter"
+  value = "${aws_apigatewayv2_stage.prod_stage.invoke_url}/visitor-counter"
 }
