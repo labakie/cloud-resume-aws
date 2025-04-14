@@ -139,7 +139,17 @@ resource "aws_s3_bucket_policy" "allow_access_cloudfront_to_s3" {
   })
 }
 
+# show S# bucket name
+output "s3_bucket_name" {
+  value = aws_s3_bucket.site_bucket.bucket
+}
+
 # show cloudfont distribution url
 output "distribution_url" {
   value = aws_cloudfront_distribution.s3_distribution.domain_name
+}
+
+# show cloudfont distribution ID
+output "distribution_ID" {
+  value = aws_cloudfront_distribution.s3_distribution.id
 }
