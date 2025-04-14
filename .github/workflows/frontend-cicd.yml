@@ -1,0 +1,36 @@
+name: frontend deployment S3
+on:
+  push:
+    branches: 
+    - main
+
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  AWS_REGION: 'us-east-1'
+
+jobs:
+  inject-deploy-invalidate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Inject API Gateway invoke url to JS file
+        run: |
+          sed -i "s|api-gateway-invoke-url-placeholder|${{ secrets.API_GATEWAY_URL }}" static-site/script.js
+
+      - name: Sync static site to S3
+        uses: jakejarvis/s3-sync-action@v0.5.1
+        with:
+          args: --delete
+        env:
+          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+          SOURCE_DIR: 'static-site'
+
+      - name: Invalidate CloudFront cahce
+        uses: chetan/invalidate-cloudfront-action@v2.4
+        env:
+          DISTRIBUTION: ${{ secrets.DISTRIBUTION_ID }}
+          PATHS: "/*"
