@@ -3,6 +3,8 @@ on:
   push:
     branches: 
     - main
+    paths:
+    - 'static-site/**'
 
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
