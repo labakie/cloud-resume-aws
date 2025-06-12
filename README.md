@@ -1,6 +1,7 @@
 # Cloud Resume AWS
 ### Architecture Diagram
 <img src="diagram.png" width="800">
+
 ### Overview
 I created this project to familiarize myself with AWS and learn more about cloud computing, as it is one of the topics that I have an interest in for my career. While I was feeling overwhelmed about various services in AWS and their pricing, I discovered [The Cloud Resume Challenge Guidebook](https://cloudresumechallenge.dev/) by Forrest Brazeal. In a nutshell, this book contains resources and general guides to host your resume on AWS as the challenge. All services used in this project are covered within the AWS free tier. In fact, I spent no bucks at all on AWS even after the project was done.
 
